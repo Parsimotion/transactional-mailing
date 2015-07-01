@@ -12,7 +12,7 @@ module.exports =
 
   # MongoDB connection options
   mongo:
-    uri: process.env.MONGO_URI or "mongodb://localhost/integration-seed"
+    uri: process.env.MONGO_URI or "mongodb://localhost/transactional-mailing"
     options:
       server:
         socketOptions:

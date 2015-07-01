@@ -316,7 +316,7 @@ module.exports = (grunt) ->
     ngtemplates:
       options:
       # This should be the name of your apps angular module
-        module: "integration-seed-app"
+        module: "transactional-mailing-app"
         htmlmin:
           collapseBooleanAttributes: true
           collapseWhitespace: true
@@ -391,7 +391,7 @@ module.exports = (grunt) ->
 
       azureproduction:
         options:
-          remote: "https://#{process.env.AZURE_GIT_CREDENTIALS}@integration-seed.scm.azurewebsites.net:443/integration-seed.git"
+          remote: "https://#{process.env.AZURE_GIT_CREDENTIALS}@transactional-mailing.scm.azurewebsites.net:443/transactional-mailing.git"
           branch: "master"
 
       openshift:

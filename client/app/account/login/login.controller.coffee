@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module 'integration-seed-app'
+angular.module 'transactional-mailing-app'
 .controller 'LoginCtrl', ($scope, Auth, $location, $window) ->
   $scope.user = {}
   $scope.errors = {}

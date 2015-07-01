@@ -5,4 +5,4 @@
 
 # MongoDB connection options
 module.exports = mongo:
-  uri: "mongodb://localhost/integration-seed-test"
+  uri: "mongodb://localhost/transactional-mailing-test"

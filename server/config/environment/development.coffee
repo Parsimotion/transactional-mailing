@@ -6,4 +6,4 @@ module.exports =
 
   # MongoDB connection options
   mongo:
-    uri: "mongodb://localhost/integration-seed-dev"
+    uri: "mongodb://localhost/transactional-mailing-dev"

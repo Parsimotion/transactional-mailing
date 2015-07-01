@@ -1,5 +1,5 @@
-# integration-seed
-Please, replace the string "integration-seed" with the name you want, in all the project.
+# transactional-mailing
+Please, replace the string "transactional-mailing" with the name you want, in all the project.
 
 ## Setup
 
