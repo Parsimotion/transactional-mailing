@@ -34,10 +34,13 @@ all =
     clientID: process.env.PRODUCTECA_CLIENTID or "id"
     clientSecret: process.env.PRODUCTECA_CLIENTSECRET or "secret"
     callbackURL: (process.env.DOMAIN or "") + "/auth/producteca/callback"
-    authorizationURL: process.env.AUTHORIZATION_SERVER_URL + "/oauth/authorise"
-    tokenURL: process.env.AUTHORIZATION_SERVER_URL + "/oauth/token"
-    profileUrl: process.env.AUTHORIZATION_SERVER_URL + "/users/me"
 
+authServerUrl = process.env.AUTHORIZATION_SERVER_URL
+if authServerUrl?
+  _.assign all.producteca,
+    authorizationURL: "#{authServerUrl}/oauth/authorise"
+    tokenURL: "#{authServerUrl}/oauth/token"
+    profileUrl: "#{authServerUrl}/users/me"
 
 # Export the config object based on the NODE_ENV
 # ==============================================

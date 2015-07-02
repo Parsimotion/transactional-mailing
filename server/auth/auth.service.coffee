@@ -6,6 +6,10 @@ exports.authenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
   res.send 401
 
-exports.redirectIfNotAuthenticated = (req, res, next) ->
+exports.renderLandingIfNotAuthenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
-  res.redirect "/auth/producteca"
+  res.render "landing"
+
+exports.logout = (req, res) ->
+  req.logout()
+  res.redirect "/"

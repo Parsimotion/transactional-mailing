@@ -27,6 +27,7 @@ module.exports = (grunt) ->
     yeoman:
     # configurable paths
       client: require("./bower.json").appPath or "client"
+      server: "server"
       dist: "dist"
 
     express:
@@ -231,7 +232,7 @@ module.exports = (grunt) ->
   # Automatically inject Bower components into the app
     wiredep:
       target:
-        src: "<%= yeoman.client %>/index.html"
+        src: "<%= yeoman.server %>/index.html"
         ignorePath: "<%= yeoman.client %>/"
         exclude: [
           /bootstrap-sass-official/
@@ -258,7 +259,7 @@ module.exports = (grunt) ->
   # concat, minify and revision files. Creates configurations in memory so
   # additional tasks can operate on them
     useminPrepare:
-      html: ["<%= yeoman.client %>/index.html"]
+      html: ["<%= yeoman.server %>/index.html"]
       options:
         dest: "<%= yeoman.dist %>/public"
 
@@ -508,6 +509,7 @@ module.exports = (grunt) ->
 
         files:
           ".tmp/app/app.css": "<%= yeoman.client %>/app/app.scss"
+          ".tmp/app/landing.css": "<%= yeoman.client %>/app/base.scss"
 
     injector:
       options: {}
@@ -524,7 +526,7 @@ module.exports = (grunt) ->
           endtag: "<!-- endinjector -->"
 
         files:
-          "<%= yeoman.client %>/index.html": [
+          "<%= yeoman.server %>/index.html": [
             [
               "{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js"
               "!{.tmp,<%= yeoman.client %>}/app/app.js"
@@ -547,7 +549,7 @@ module.exports = (grunt) ->
 
         files:
           "<%= yeoman.client %>/app/app.scss": [
-            "<%= yeoman.client %>/{app,components}/**/*.{scss,sass}"
+            "<%= yeoman.client %>/{app,components}/**/!(_)*.{scss,sass}"
             "!<%= yeoman.client %>/app/app.{scss,sass}"
           ]
 
@@ -564,7 +566,7 @@ module.exports = (grunt) ->
           endtag: "<!-- endinjector -->"
 
         files:
-          "<%= yeoman.client %>/index.html": ["<%= yeoman.client %>/{app,components}/**/*.css"]
+          "<%= yeoman.server %>/index.html": ["<%= yeoman.client %>/{app,components}/**/*.css"]
   }
 
   # Used for delaying livereload until after server has restarted

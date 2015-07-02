@@ -20,3 +20,6 @@ div.navbar.navbar-default.navbar-static-top(ng-controller='NavbarCtrl')
         li(ng-class='{active: isActive("/settings")}')
           a(href='/settings')
             span.glyphicon.glyphicon-cog
+
+        li
+          a(href='', ng-click='logout()') Cerrar sesión
