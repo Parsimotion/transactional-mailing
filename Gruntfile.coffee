@@ -390,7 +390,7 @@ module.exports = (grunt) ->
         connectCommits: false
         message: "Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%"
 
-      azureproduction:
+      azure:
         options:
           remote: "https://#{process.env.AZURE_GIT_CREDENTIALS}@transactional-mailing.scm.azurewebsites.net:443/transactional-mailing.git"
           branch: "master"
