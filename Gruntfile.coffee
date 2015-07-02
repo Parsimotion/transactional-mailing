@@ -6,6 +6,13 @@ module.exports = (grunt) ->
   catch e
     localConfig = {}
 
+
+  azureWebsite = "transactional-mailing" + if grunt.option('slot') then "-#{grunt.option('slot')}" else ""
+  azureGit = "#{azureWebsite}.scm.azurewebsites.net:443/transactional-mailing.git"
+  azureCredentials = "#{process.env.AZURE_DEPLOYMENT_USER}:#{process.env.AZURE_DEPLOYMENT_PASSWORD}"
+  remote = "https://#{azureCredentials}@#{azureGit}"
+  branch = grunt.option('branch')
+
   # Load grunt tasks automatically, when needed
   require("jit-grunt") grunt,
     express: "grunt-express-server"
@@ -392,8 +399,8 @@ module.exports = (grunt) ->
 
       azure:
         options:
-          remote: "https://#{process.env.AZURE_DEPLOYMENT_USER}:#{process.env.AZURE_DEPLOYMENT_PASSWORD}@transactional-mailing#{grunt.option('slot') ? '-' + grunt.option('slot') : ''}.scm.azurewebsites.net:443/transactional-mailing.git"
-          branch: "#{grunt.option('branch')}"
+          remote: remote
+          branch: branch
 
   # Run some tasks in parallel to speed up the build process
     concurrent:
