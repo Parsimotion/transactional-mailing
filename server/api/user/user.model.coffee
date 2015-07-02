@@ -27,14 +27,6 @@ UserSchema = new Schema
   settings:
     saved: Boolean
 
-###*
-Virtuals
-###
-# Public profile information
-UserSchema.virtual("profile").get ->
-  name: @name
-  role: @role
-
 # Non-sensitive info we'll be putting in the token
 UserSchema.virtual("token").get ->
   _id: @_id
@@ -65,16 +57,5 @@ UserSchema.path("email").validate ((value, respond) ->
 
   return
 ), "The specified email address is already in use."
-validatePresenceOf = (value) ->
-  value and value.length
-
-###*
-Methods
-###
-
-UserSchema.methods =
-  getSomething: ->
-    Something = try require("../../domain/something")
-    new Something @
 
 module.exports = mongoose.model("User", UserSchema)

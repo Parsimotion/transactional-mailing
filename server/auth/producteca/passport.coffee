@@ -15,7 +15,9 @@ exports.setup = (User, config) ->
 
       setTokenAndSave = =>
         user.tokens.producteca = accessToken
-        user.save() ; user
+        user.save()
+        user
+
       return done null, setTokenAndSave() if user?
 
       user = new User

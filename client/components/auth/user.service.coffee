@@ -5,11 +5,6 @@ angular.module 'transactional-mailing-app'
   $resource '/api/users/:id/:controller',
     id: '@_id'
   ,
-    changePassword:
-      method: 'PUT'
-      params:
-        controller: 'password'
-
     get:
       method: 'GET'
       params:

@@ -10,8 +10,8 @@ router
 .get "/", passport.authenticate("producteca")
 
 .get "/callback", passport.authenticate("producteca",
+  successRedirect: "/",
   failureRedirect: "/"
-  session: false
-), auth.setTokenCookie
+)
 
 module.exports = router

@@ -1,11 +1,11 @@
 "use strict"
 
 express = require("express")
-passport = require("passport")
 config = require("../config/environment")
 User = require("../api/user/user.model")
 
 # Passport Configuration
+require("./passport.serializer")
 require("./producteca/passport").setup User, config
 
 router = express.Router()

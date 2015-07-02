@@ -6,7 +6,7 @@ auth = require("../../auth/auth.service")
 router = express.Router()
 
 router.get "/env", controller.env
-router.get "/", auth.isAuthenticated(), controller.index
-router.put "/", auth.isAuthenticated(), controller.update
+router.get "/", auth.authenticated, controller.index
+router.put "/", auth.authenticated, controller.update
 
 module.exports = router
