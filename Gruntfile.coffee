@@ -392,14 +392,8 @@ module.exports = (grunt) ->
 
       azure:
         options:
-          remote: "https://#{process.env.AZURE_GIT_CREDENTIALS}@transactional-mailing.scm.azurewebsites.net:443/transactional-mailing.git"
-          branch: "master"
-
-      openshift:
-        options:
-          remote: "openshift"
-          branch: "master"
-
+          remote: "https://#{process.env.AZURE_DEPLOYMENT_USER}:#{process.env.AZURE_DEPLOYMENT_PASSWORD}@transactional-mailing#{grunt.option('slot') ? '-' + grunt.option('slot') : ''}.scm.azurewebsites.net:443/transactional-mailing.git"
+          branch: "#{grunt.option('branch')}"
 
   # Run some tasks in parallel to speed up the build process
     concurrent:
