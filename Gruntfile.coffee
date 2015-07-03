@@ -237,7 +237,7 @@ module.exports = (grunt) ->
   # Automatically inject Bower components into the app
     wiredep:
       target:
-        src: "<%= yeoman.server %>/index.html"
+        src: "<%= yeoman.client %>/index.html"
         ignorePath: "<%= yeoman.client %>/"
         exclude: [
           /bootstrap-sass-official/
@@ -264,7 +264,8 @@ module.exports = (grunt) ->
   # concat, minify and revision files. Creates configurations in memory so
   # additional tasks can operate on them
     useminPrepare:
-      html: ["<%= yeoman.server %>/index.html"]
+      htmls:
+        src: ["<%= yeoman.client %>/*.html"]
       options:
         dest: "<%= yeoman.dist %>/public"
 
@@ -360,12 +361,11 @@ module.exports = (grunt) ->
           cwd: "<%= yeoman.client %>"
           dest: "<%= yeoman.dist %>/public"
           src: [
-            "*.{ico,png,txt}"
+            "*.{ico,png,txt,html}"
             ".htaccess"
             "bower_components/**/*"
             "assets/images/{,*/}*.{webp}"
             "assets/fonts/**/*"
-            "index.html"
           ]
         ,
           expand: true
@@ -379,6 +379,11 @@ module.exports = (grunt) ->
             "package.json"
             "server/**/*"
           ]
+        ,
+          expand: true
+          cwd: ".tmp"
+          src: ["{app,components}/**/landing.css"]
+          dest: "<%= yeoman.dist %>/public"
         ]
 
       styles:
@@ -525,7 +530,7 @@ module.exports = (grunt) ->
           endtag: "<!-- endinjector -->"
 
         files:
-          "<%= yeoman.server %>/index.html": [
+          "<%= yeoman.client %>/index.html": [
             [
               "{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js"
               "!{.tmp,<%= yeoman.client %>}/app/app.js"
@@ -565,7 +570,7 @@ module.exports = (grunt) ->
           endtag: "<!-- endinjector -->"
 
         files:
-          "<%= yeoman.server %>/index.html": ["<%= yeoman.client %>/{app,components}/**/*.css"]
+          "<%= yeoman.client %>/index.html": ["<%= yeoman.client %>/{app,components}/**/*.css"]
   }
 
   # Used for delaying livereload until after server has restarted

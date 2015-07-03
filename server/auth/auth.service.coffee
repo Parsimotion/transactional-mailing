@@ -8,7 +8,7 @@ exports.authenticated = (req, res, next) ->
 
 exports.renderLandingIfNotAuthenticated = (req, res, next) ->
   return next() if req.isAuthenticated()
-  res.render "landing"
+  res.sendfile "server/landing.html"
 
 exports.logout = (req, res) ->
   req.logout()
