@@ -24,7 +24,7 @@
     "morgan": "~1.0.0",
     "oauth": "~0.9.12",
     "passport": "~0.2.0",
-    "passport-producteca": "^0.0.4",
+    "passport-producteca": "^0.0.6",
     "producteca-sdk": "git://github.com/Parsimotion/producteca-sdk.git#0.0.16",
     "request": "^2.58.0",
     "serve-favicon": "~2.0.1"
