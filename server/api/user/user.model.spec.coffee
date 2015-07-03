@@ -18,6 +18,7 @@ describe "User Model", ->
 
   it "should store the provider and its id", (done) ->
     new User(
+      email: 'juan@gmail.com'
       provider: 'producteca'
       providerId: 12345678
     ).save ->

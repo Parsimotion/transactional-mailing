@@ -13,6 +13,8 @@ UserSchema = new Schema
   email:
     type: String
     lowercase: true
+    required: true
+    unique: true
 
   role:
     type: String
@@ -31,31 +33,5 @@ UserSchema = new Schema
 UserSchema.virtual("token").get ->
   _id: @_id
   role: @role
-
-###*
-Validations
-###
-
-# Validate empty email
-UserSchema.path("email").validate ((email) ->
-  return true  if authTypes.indexOf(@provider) isnt -1
-  email.length
-), "Email cannot be blank"
-
-# Validate email is not taken
-UserSchema.path("email").validate ((value, respond) ->
-  self = this
-  @constructor.findOne
-    email: value
-  , (err, user) ->
-    throw err  if err
-    if user
-      return respond(true)  if self.id is user.id
-      return respond(false)
-    respond true
-    return
-
-  return
-), "The specified email address is already in use."
 
 module.exports = mongoose.model("User", UserSchema)
