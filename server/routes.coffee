@@ -7,7 +7,12 @@ auth = require("./auth/auth.service")
 
 module.exports = (app) ->
   # Insert routes below
-  app.get "/", auth.renderLandingIfNotAuthenticated, (req, res) -> res.sendfile "server/index.html"
+  app.get "/", (req, res) ->
+    if req.isAuthenticated()
+      res.sendfile app.get("appPath") + "/main.html"
+    else
+      res.sendfile app.get("appPath") + "/landing.html"
+
   app.use "/api/users", require("./api/user")
   app.use "/api/hooks/webjob", require("./api/hooks/webjob")
   app.use "/api/settings", require("./api/settings")

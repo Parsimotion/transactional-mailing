@@ -237,7 +237,7 @@ module.exports = (grunt) ->
   # Automatically inject Bower components into the app
     wiredep:
       target:
-        src: "<%= yeoman.client %>/index.html"
+        src: "<%= yeoman.client %>/main.html"
         ignorePath: "<%= yeoman.client %>/"
         exclude: [
           /bootstrap-sass-official/
@@ -518,7 +518,7 @@ module.exports = (grunt) ->
     injector:
       options: {}
 
-    # Inject application script files into index.html (doesn't include bower)
+    # Inject application script files into main.html (doesn't include bower)
       scripts:
         options:
           transform: (filePath) ->
@@ -530,7 +530,7 @@ module.exports = (grunt) ->
           endtag: "<!-- endinjector -->"
 
         files:
-          "<%= yeoman.client %>/index.html": [
+          "<%= yeoman.client %>/main.html": [
             [
               "{.tmp,<%= yeoman.client %>}/{app,components}/**/*.js"
               "!{.tmp,<%= yeoman.client %>}/app/app.js"
@@ -558,7 +558,7 @@ module.exports = (grunt) ->
           ]
 
 
-    # Inject component css into index.html
+    # Inject component css into main.html
       css:
         options:
           transform: (filePath) ->
@@ -570,7 +570,7 @@ module.exports = (grunt) ->
           endtag: "<!-- endinjector -->"
 
         files:
-          "<%= yeoman.client %>/index.html": ["<%= yeoman.client %>/{app,components}/**/*.css"]
+          "<%= yeoman.client %>/main.html": ["<%= yeoman.client %>/{app,components}/**/*.css"]
   }
 
   # Used for delaying livereload until after server has restarted
