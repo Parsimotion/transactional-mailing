@@ -7,11 +7,9 @@ module.exports = (grunt) ->
     localConfig = {}
 
 
-  azureWebsite = "transactional-mailing" + if grunt.option('slot') then "-#{grunt.option('slot')}" else ""
+  azureWebsite = "transactional-mailing" + if process.env.BRANCH_NAME is "master" then "" else "-#{process.env.BRANCH_NAME}"
   azureGit = "#{azureWebsite}.scm.azurewebsites.net:443/transactional-mailing.git"
-  azureCredentials = "#{process.env.AZURE_DEPLOYMENT_USER}:#{process.env.AZURE_DEPLOYMENT_PASSWORD}"
-  remote = "https://#{azureCredentials}@#{azureGit}"
-  branch = grunt.option('branch')
+  remote = "https://#{process.env.AZURE_GIT_CREDENTIALS}@#{azureGit}"
 
   # Load grunt tasks automatically, when needed
   require("jit-grunt") grunt,
@@ -400,7 +398,7 @@ module.exports = (grunt) ->
       azure:
         options:
           remote: remote
-          branch: branch
+          branch: "master"
 
   # Run some tasks in parallel to speed up the build process
     concurrent:
