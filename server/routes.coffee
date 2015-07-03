@@ -3,6 +3,7 @@ Main application routes
 ###
 "use strict"
 errors = require("./components/errors")
+auth = require("./auth/auth.service")
 module.exports = (app) ->
   # Insert routes below
   app.get "/", (req, res) ->
