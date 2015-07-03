@@ -23,7 +23,6 @@ exports.setup = (User, config) ->
       user = new User
         name: "#{profile.profile.firstName} #{profile.profile.lastName}"
         email: profile.email
-        role: "user"
         username: profile.credentials.username
         provider: "producteca"
         providerId: profile.id
