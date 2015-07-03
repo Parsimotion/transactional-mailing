@@ -5,7 +5,11 @@
 #
 # You will need to set these on the server you deploy to.
 module.exports =
+
   DOMAIN: "http://localhost:9000"
+  AUTHORIZATION_SERVER_URL: "http://auth-development.producteca.com"
+  PRODUCTECA_API: "http://development-api.producteca.com"
+
   SESSION_SECRET: "a session secret"
   COOKIE_KEY: "a signature"
   MONGO_URI: "a connection string to a mongodb database"
