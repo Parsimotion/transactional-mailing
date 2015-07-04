@@ -15,6 +15,7 @@ module.exports = (app) ->
   app.get "/", home
   app.use "/api/users", require("./api/user")
   app.use "/api/hooks/webjob", require("./api/hooks/webjob")
+  app.use "/api/templates", require("./api/templates")
   app.use "/auth", require("./auth")
   app.get "/logout", auth.logout
 

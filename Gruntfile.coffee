@@ -134,7 +134,7 @@ module.exports = (grunt) ->
           "<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}"
         ]
         options:
-          livereload: true
+          livereload: 35728
 
       express:
         files: ["server/**/*.{coffee,json}"]
@@ -143,7 +143,7 @@ module.exports = (grunt) ->
           "wait"
         ]
         options:
-          livereload: true
+          livereload: 35728
           nospawn: true #Without this option specified express won't be reloaded
 
 
