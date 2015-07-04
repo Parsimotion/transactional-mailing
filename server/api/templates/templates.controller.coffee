@@ -11,13 +11,14 @@ class TemplatesController
     @_send res, @_getTemplate(req, res).then ({template}) -> template
 
   update: (req, res) =>
-    @_send res, @_getTemplate(req, res).then ({user, template}) ->
+    @_send res, @_getTemplate(req, res).then ({user, template}) =>
       _.assign template, _.omit req.body, '_id'
-      new Promise (resolve, reject) ->
-        user.save (err) ->
-          return reject err if err
-          resolve template
+      @_save(user).then -> template
 
+  create: (req, res) =>
+    @_send res, @_getUser(req).then (user) =>
+      user.templates.push req.body
+      @_save(user).then -> req.body
 
   _getUser: (req) ->
     User.findByIdAsync req.user._id
@@ -27,6 +28,12 @@ class TemplatesController
       template = user.getTemplate req.param 'id'
       user: user
       template: template
+
+  _save: (user) ->
+    new Promise (resolve, reject) ->
+      user.save (err) ->
+        return reject err if err
+        resolve()
 
   _send: (res, query) =>
     query

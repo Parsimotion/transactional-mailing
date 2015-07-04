@@ -87,3 +87,16 @@ describe "when update is called", ->
     templatesController.update(req, res).then ->
       res.send.lastCall.args[0].should.eql 404
       done()
+
+it "should append the template when create is called", (done) ->
+  req.body =
+    name: "newTemplate"
+    content:
+      from: "otromail@gmail.com"
+      subject: "Como te fue con tu compra?"
+      body: "<body />"
+
+  templatesController.create(req, res).then ->
+    User.findOneAsync({}).then (user) ->
+      user.templates[1].name.should.eql "newTemplate"
+      done()
