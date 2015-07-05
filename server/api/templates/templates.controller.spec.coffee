@@ -28,7 +28,7 @@ describe "TemplatesController", ->
     user.save ->
       templateId = user.templates[0].id
       req = user:
-        _id: user._id.toString()
+        _id: user.id
       done()
 
   afterEach (done) ->
@@ -83,7 +83,7 @@ describe "TemplatesController", ->
 
         templatesController.update(req, res).then ->
           User.findOneAsync({}).then (user) ->
-            user.templates[0]._id.toString().should.eql templateId.toString()
+            user.templates[0].id.should.eql templateId
             done()
 
     it "should return 404 if the template does not exist", (done) ->
