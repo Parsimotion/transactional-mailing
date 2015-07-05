@@ -20,6 +20,11 @@ class TemplatesController
       user.templates.push req.body
       @_save(user).then -> req.body
 
+  remove: (req, res) =>
+    @_send res, @_getUser(req).then (user) =>
+      user.templates.pull _id: req.param 'id'
+      @_save user
+
   _getUser: (req) ->
     User.findByIdAsync req.user._id
 

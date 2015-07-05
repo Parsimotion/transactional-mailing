@@ -32,7 +32,7 @@ describe "TemplatesController", ->
       done()
 
   afterEach (done) ->
-    User.remove().exec().then -> done()
+    user.remove -> done()
 
   it "should return the user's templates when query is called", (done) ->
     templatesController.query(req, res).then ->
@@ -103,4 +103,11 @@ describe "TemplatesController", ->
     templatesController.create(req, res).then ->
       User.findOneAsync({}).then (user) ->
         user.templates[1].name.should.eql "newTemplate"
+        done()
+
+  it "should remove the template when remove is called", (done) ->
+    req.param = sinon.stub().returns templateId
+    templatesController.remove(req, res).then ->
+      User.findOneAsync({}).then (user) ->
+        user.templates.length.should.eql 0
         done()
