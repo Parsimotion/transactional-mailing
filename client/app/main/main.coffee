@@ -7,3 +7,5 @@ angular.module 'transactional-mailing-app'
     url: '/'
     templateUrl: 'app/main/main.html'
     controller: 'MainCtrl'
+    resolve:
+      templates: (Template) -> Template.query().$promise
