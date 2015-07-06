@@ -1,7 +1,7 @@
 .header(ng-controller='NavbarCtrl')
   ul.nav.nav-pills.pull-right
     li.nav-text
-      | Hola {{ getCurrentUser().name }}
+      | {{'hi' | translate}} {{ getCurrentUser().name }}
     li
       a(href='', ng-click='logout()')
         i.fa.fa-sign-out

@@ -2,12 +2,12 @@ div(ng-include='"components/navbar/navbar.html"')
 div(ng-include="'components/notifications/notifications.html'")
 form
   .form-group
-    label(for='fromInput') From
-    input#fromInput.form-control(type='email', ng-model='template.content.from', placeholder='Email')
+    label(for='fromInput', translate='') from
+    input#fromInput.form-control(type='email', ng-model='template.content.from', placeholder="{{'email' | translate}}")
   .form-group
-    label(for='subjectInput') Subject
-    input#subjectInput.form-control(type='text', ng-model='template.content.subject', placeholder='Subject')
+    label(for='subjectInput', translate='') subject
+    input#subjectInput.form-control(type='text', ng-model='template.content.subject', placeholder="{{'subject' | translate}}")
   .form-group
-    label(for='bodyInput') Body
+    label(for='bodyInput', translate='') body
     textarea#bodyInput.form-control(type='text', ng-model='template.content.body')
-  button.btn.btn-primary(type='submit', ng-click='save()', ng-disabled='savingTemplate') Save
+  button.btn.btn-primary(type='submit', ng-click='save()', ng-disabled='savingTemplate', translate='') save

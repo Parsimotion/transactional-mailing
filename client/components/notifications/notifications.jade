@@ -4,4 +4,4 @@ div(ng-controller="NotificationsCtrl")
       button.close(type='button', data-dismiss='alert', aria-hidden='true', ng-click='resetNotification()') &times;
       p
         i.fa
-        span {{notification.message}}
+        span {{notification.message | translate}}

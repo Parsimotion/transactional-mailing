@@ -1,0 +1,9 @@
+{
+  "hi": "Hola",
+  "from": "Remitente",
+  "subject": "Asunto",
+  "body": "Plantilla",
+  "save": "Guardar",
+  "template.save.success": "Los cambios han sido guardados",
+  "template.save.failure": "Hubo un error al guardar los cambios"
+}
