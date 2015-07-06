@@ -1,6 +1,7 @@
 User = require("../user/user.model")
 _ = require("lodash")
 Promise = require("bluebird").Promise
+Handlebars = require("handlebars")
 
 class TemplatesController
 
@@ -25,6 +26,15 @@ class TemplatesController
     @_send res, @_getUser(req).then (user) =>
       user.templates.pull _id: req.param 'id'
       @_save(user).then -> 200
+
+  test: (req, res) =>
+    @_send res, @_getTemplate(req, res).then ({template}) ->
+      subjectTemplate = Handlebars.compile template.content.subject
+      bodyTemplate = Handlebars.compile template.content.body
+
+      from: template.content.from
+      subject: subjectTemplate req.body
+      body: bodyTemplate req.body
 
   _getUser: (req) ->
     User.findByIdAsync req.user._id
