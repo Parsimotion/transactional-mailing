@@ -1,0 +1,51 @@
+@mixin notification($type, $icon) {
+  @extend .alert-#{$type};
+  @extend .notification-message;
+  top: 45px;
+  padding-right: 48px;
+  font-size: 13px;
+  i {
+    margin-right: 5px;
+    &:before {
+      content: $icon;
+    }
+  }
+  .close {
+    position: absolute;
+    right: 8px;
+    margin-top: -4px;
+    font-size: 20px;
+  }
+}
+
+.notification-container {
+  position: fixed;
+  top: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 3px 10px;
+  border-color: #E9DABD;
+  color: #795F34;
+  border-radius: 0;
+  font-size: 12px;
+  text-align: center;
+  z-index: 3;
+  left: 50%;
+  width: 350px;
+}
+
+.notification-message {
+  display: inline-block;
+  position: relative;
+  padding: 6px 40px;
+  margin: 0 0 0 -100%;
+}
+
+.notification-success {
+  $check-circle: "\f058";
+  @include notification(success, $check-circle);
+}
+.notification-failure {
+  $times-circle: "\f057";
+  @include notification(danger, $times-circle);
+}

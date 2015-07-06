@@ -1,0 +1,7 @@
+div(ng-controller="NotificationsCtrl")
+  .notification-container.action-notification
+    .alert(ng-if="notification.message", ng-class="'notification-' + notification.type")
+      button.close(type='button', data-dismiss='alert', aria-hidden='true', ng-click='resetNotification()') &times;
+      p
+        i.fa
+        span {{notification.message | translate}}

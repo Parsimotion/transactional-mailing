@@ -23,6 +23,8 @@ module.exports = function(config) {
       'client/bower_components/angular-ui-router/release/angular-ui-router.js',
       'client/bower_components/rxjs/dist/rx.all.js',
       'client/bower_components/angular-rx/dist/rx.angular.js',
+      'client/bower_components/angular-translate/angular-translate.js',
+      'client/bower_components/angular-translate-loader-url/angular-translate-loader-url.js',
       'client/spec/specSetup.coffee',
       'client/spec/matchers/*.coffee',
       'client/app/app.js',
@@ -34,7 +36,8 @@ module.exports = function(config) {
       'client/app/**/*.jade',
       'client/components/**/*.jade',
       'client/app/**/*.html',
-      'client/components/**/*.html'
+      'client/components/**/*.html',
+      'client/spec/**/*.coffee'
     ],
 
     preprocessors: {
@@ -63,7 +66,7 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: true,
 
 
     // Start these browsers, currently available:

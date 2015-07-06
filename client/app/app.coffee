@@ -6,9 +6,15 @@ window.app = angular.module 'transactional-mailing-app', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
+  'pascalprecht.translate'
 ]
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider
   .otherwise '/'
 
   $locationProvider.html5Mode true
+
+.config ($translateProvider) ->
+  $translateProvider.useUrlLoader 'api/language'
+  $translateProvider.determinePreferredLanguage()
+  $translateProvider.useSanitizeValueStrategy 'sanitize'

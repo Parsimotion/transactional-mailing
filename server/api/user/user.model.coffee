@@ -3,6 +3,7 @@
 mongoose = require("mongoose")
 Promise = require("bluebird")
 Promise.promisifyAll mongoose
+_ = require("lodash")
 
 Schema = mongoose.Schema
 
@@ -22,7 +23,25 @@ UserSchema = new Schema
   tokens:
     producteca: String
 
-  settings:
-    saved: Boolean
+  templates: [
+    name:
+      type: String
+      required: true
+    content:
+      from:
+        type: String
+        required: true
+      subject:
+        type: String
+        required: true
+      body:
+        type: String
+        required: true
+  ]
+
+UserSchema.methods.getTemplate = (id) ->
+  template = _.find @templates, (it) -> it._id.toString() is id
+  throw new Error "entity_not_found" if not template
+  template
 
 module.exports = mongoose.model("User", UserSchema)
