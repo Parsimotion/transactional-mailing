@@ -1,4 +1,4 @@
 beforeEach ->
-  module "transactional-mailing-app"
-  inject ($httpBackend) ->
-    $httpBackend.whenGET(/api/language\?lang=/).respond()
+  module("transactional-mailing-app")
+
+  inject ($httpBackend) -> $httpBackend.whenGET((url) -> /api\/language\?lang=/.test url).respond()

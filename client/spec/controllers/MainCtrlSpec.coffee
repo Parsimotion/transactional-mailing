@@ -42,7 +42,7 @@ describe 'MainCtrl', ->
           expect(scope.template._id).toBe 'newId'
 
         it 'should broadcast success message if POST succeeded', ->
-          expect(rootScope.$broadcast).toHaveBeenCalledWith 'notify', 'success', 'template.saved'
+          expect(rootScope.$broadcast).toHaveBeenCalledWith 'notify', 'success', 'template.save.success'
 
         it 'should send a PUT to the API if save is called again', ->
           scope.save()
@@ -52,7 +52,7 @@ describe 'MainCtrl', ->
       it 'should broadcast failure message if POST fails', ->
         httpBackend.whenPOST('/api/templates', name: 'template').respond 500
         httpBackend.flush()
-        expect(rootScope.$broadcast).toHaveBeenCalledWith 'notify', 'failure', 'template.save.error'
+        expect(rootScope.$broadcast).toHaveBeenCalledWith 'notify', 'failure', 'template.save.failure'
 
   describe 'when the user has tempaltes', ->
     beforeEach ->
