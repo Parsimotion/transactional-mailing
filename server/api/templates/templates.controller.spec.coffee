@@ -20,8 +20,8 @@ describe "TemplatesController", ->
         name: "template1"
         content:
           from: "juan@gmail.com"
-          subject: "Gracias por tu compra"
-          body: "<body />"
+          subject: "Gracias por tu compra {{contact.name}}"
+          body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
       ]
     )
     res = send: sinon.spy()
@@ -64,8 +64,8 @@ describe "TemplatesController", ->
           name: "template1"
           content:
             from: "nuevomail@gmail.com"
-            subject: "Gracias por tu compra"
-            body: "<body />"
+            subject: "Gracias por tu compra {{contact.name}}"
+            body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
         templatesController.update(req, res).then ->
           User.findOneAsync({}).then (user) ->
@@ -78,8 +78,8 @@ describe "TemplatesController", ->
           name: "template1"
           content:
             from: "nuevomail@gmail.com"
-            subject: "Gracias por tu compra"
-            body: "<body />"
+            subject: "Gracias por tu compra {{contact.name}}"
+            body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
         templatesController.update(req, res).then ->
           User.findOneAsync({}).then (user) ->
@@ -98,7 +98,7 @@ describe "TemplatesController", ->
       content:
         from: "otromail@gmail.com"
         subject: "Como te fue con tu compra?"
-        body: "<body />"
+        body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
     templatesController.create(req, res).then ->
       User.findOneAsync({}).then (user) ->
@@ -111,3 +111,28 @@ describe "TemplatesController", ->
       User.findOneAsync({}).then (user) ->
         user.templates.length.should.eql 0
         done()
+
+  it "should return a template compiled with the passed template and sample order when test is called", ->
+    req.body =
+      sample:
+        contact:
+          name: "Juan Perez"
+        lines: [
+          product:
+            description: "Excelente Producto"
+        ]
+      template:
+        content:
+          from: "juan@gmail.com"
+          subject: "Gracias por tu compra {{contact.name}}"
+          body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
+
+    templatesController.test req, res
+    expected =
+      from: "juan@gmail.com"
+      subject: "Gracias por tu compra Juan Perez"
+      body: "<body><h1>Gracias por comprar un Excelente Producto</h1></body>"
+
+    res.send.lastCall.args[0].should.eql expected
+
+

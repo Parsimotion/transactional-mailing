@@ -1,5 +1,7 @@
 {
+  "close": "Cerrar",
   "hi": "Hola",
+  "email": "Email",
   "from": "Remitente",
   "subject": "Asunto",
   "body": "Plantilla",
