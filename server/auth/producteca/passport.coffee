@@ -26,6 +26,7 @@ exports.setup = (User, config) ->
         username: profile.credentials.username
         provider: "producteca"
         providerId: profile.id
+        companyId: profile.company.id
         tokens:
           producteca: accessToken
 
