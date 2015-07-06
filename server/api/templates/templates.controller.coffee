@@ -18,12 +18,13 @@ class TemplatesController
   create: (req, res) =>
     @_send res, @_getUser(req).then (user) =>
       user.templates.push req.body
-      @_save(user).then -> req.body
+      @_save(user).then (user) ->
+        _.last user.templates
 
   remove: (req, res) =>
     @_send res, @_getUser(req).then (user) =>
       user.templates.pull _id: req.param 'id'
-      @_save user
+      @_save(user).then -> 200
 
   _getUser: (req) ->
     User.findByIdAsync req.user._id
@@ -38,7 +39,7 @@ class TemplatesController
     new Promise (resolve, reject) ->
       user.save (err) ->
         return reject err if err
-        resolve()
+        resolve user
 
   _send: (res, query) =>
     query
