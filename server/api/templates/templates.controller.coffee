@@ -28,13 +28,16 @@ class TemplatesController
       @_save(user).then -> 200
 
   test: (req, res) =>
-    @_send res, @_getTemplate(req, res).then ({template}) ->
-      subjectTemplate = Handlebars.compile template.content.subject
-      bodyTemplate = Handlebars.compile template.content.body
+    template = req.body.template
+    sample = req.body.sample
 
+    subjectTemplate = Handlebars.compile template.content.subject
+    bodyTemplate = Handlebars.compile template.content.body
+
+    res.send
       from: template.content.from
-      subject: subjectTemplate req.body
-      body: bodyTemplate req.body
+      subject: subjectTemplate sample
+      body: bodyTemplate sample
 
   _getUser: (req) ->
     User.findByIdAsync req.user._id

@@ -112,22 +112,27 @@ describe "TemplatesController", ->
         user.templates.length.should.eql 0
         done()
 
-  it "should return a template compiled with the json passed in the body of the request when test is called", (done) ->
-    req.param = sinon.stub().returns templateId
+  it "should return a template compiled with the passed template and sample order when test is called", ->
     req.body =
-      contact:
-        name: "Juan Perez"
-      lines: [
-        product:
-          description: "Excelente Producto"
-      ]
-    templatesController.test(req, res).then ->
-      expected =
-        from: "juan@gmail.com"
-        subject: "Gracias por tu compra Juan Perez"
-        body: "<body><h1>Gracias por comprar un Excelente Producto</h1></body>"
+      sample:
+        contact:
+          name: "Juan Perez"
+        lines: [
+          product:
+            description: "Excelente Producto"
+        ]
+      template:
+        content:
+          from: "juan@gmail.com"
+          subject: "Gracias por tu compra {{contact.name}}"
+          body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
-      res.send.lastCall.args[0].should.eql expected
-      done()
+    templatesController.test req, res
+    expected =
+      from: "juan@gmail.com"
+      subject: "Gracias por tu compra Juan Perez"
+      body: "<body><h1>Gracias por comprar un Excelente Producto</h1></body>"
+
+    res.send.lastCall.args[0].should.eql expected
 
 
