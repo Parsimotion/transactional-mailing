@@ -1,0 +1,6 @@
+.modal-header
+  h3 {{subject}}
+.modal-body
+  div(ng-bind-html='body')
+.modal-footer
+  button.btn.btn-primary(type='button', ng-click='close()', translate='') close

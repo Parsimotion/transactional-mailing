@@ -3,20 +3,24 @@ describe 'MainCtrl', ->
   httpBackend = null
   createController = null
   rootScope = null
+  modal = null
 
   beforeEach ->
     inject ($rootScope, $controller, $httpBackend) ->
       rootScope = $rootScope
       scope = rootScope.$new()
       httpBackend = $httpBackend
+      modal = open: ->
       createController = (templates) ->
         $controller 'MainCtrl',
           $scope: scope
           $httpBackend: httpBackend
           templates: templates
+          $modal: modal
 
         scope.$apply()
         spyOn rootScope, "$broadcast"
+        spyOn modal, "open"
 
   describe 'when the user has no tempaltes', ->
     beforeEach ->
@@ -62,4 +66,40 @@ describe 'MainCtrl', ->
 
     it 'should bind the first template', ->
       expect(scope.template.name).toBe 'existingTemplate'
+
+  describe 'when test is called', ->
+    content = null
+    beforeEach ->
+      content =
+        subject: 'Hola {{contact.name}}'
+        body: '<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>'
+
+      createController []
+      scope.template.content =
+      scope.test()
+
+    it 'should send a POST to test endpoint with the current template and a sample order', inject (OrderSample) ->
+      expected =
+        template: scope.template
+        sample: OrderSample
+      httpBackend.expectPOST('/api/templates/test', expected).respond 200
+      httpBackend.flush()
+
+    it 'should open a modal with the compiled template', inject (OrderSample) ->
+      testingMaterial =
+        template: scope.template
+        sample: OrderSample
+
+      compiledTemplate =
+        from: "juan@gmail.com"
+        subject: "Gracias por tu compra Juan Perez"
+        body: "<body><h1>Gracias por comprar un Excelente Producto</h1></body>"
+
+      httpBackend.whenPOST('/api/templates/test', testingMaterial).respond compiledTemplate
+      httpBackend.flush()
+
+      expect(modal.open).toHaveBeenCalled()
+
+
+
 

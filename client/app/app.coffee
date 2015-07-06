@@ -6,7 +6,8 @@ window.app = angular.module 'transactional-mailing-app', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'pascalprecht.translate'
+  'pascalprecht.translate',
+  'ui.bootstrap'
 ]
 .config ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) ->
   $urlRouterProvider

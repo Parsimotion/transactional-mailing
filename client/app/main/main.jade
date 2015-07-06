@@ -11,3 +11,4 @@ form
     label(for='bodyInput', translate='') body
     textarea#bodyInput.form-control(type='text', ng-model='template.content.body')
   button.btn.btn-primary(type='submit', ng-click='save()', ng-disabled='savingTemplate', translate='') save
+  button.btn.btn-default.test-btn(type='submit', ng-if='template._id', ng-click='test()', ng-disabled='savingTemplate', translate='') Test
