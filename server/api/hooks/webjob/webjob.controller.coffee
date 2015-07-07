@@ -1,4 +1,5 @@
 User = require("../../user/user.model")
+SalesOrder = require("../../salesorder/salesorder.model")
 ProductecaApi = require("producteca-sdk").Api
 Promise = require("bluebird")
 Handlebars = require("handlebars")
@@ -14,7 +15,8 @@ exports.notification = (req, res) ->
       accessToken: user.tokens.producteca
       url: config.producteca.uri
 
-    productecaApi.getSalesOrder(req.body.salesOrderId).then (salesOrder) ->
+    salesOrderId = req.body.salesOrderId
+    productecaApi.getSalesOrder(salesOrderId).then (salesOrder) ->
       mandrillClient = new mandrill.Mandrill config.mandrill.apiKey
       return if user.templates.length is 0
 
@@ -33,11 +35,15 @@ exports.notification = (req, res) ->
           type: "to"
         ]
 
-      mandrillClient.messages.send
-        message: message
-      , (result) ->
-        res.send result
-      , (err) -> res.send 400, err
+      SalesOrder.createAsync(_id: salesOrderId)
+      .then ->
+        mandrillClient.messages.send
+          message: message
+        , (result) ->
+          res.send result
+        , (err) -> res.send 400, err
+      , (err) ->
+        res.send 409, err
 
   .catch (e) =>
     console.log e
