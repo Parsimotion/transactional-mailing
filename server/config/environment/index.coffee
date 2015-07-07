@@ -29,6 +29,10 @@ all =
       db:
         safe: true
 
+  # Mandrill
+  mandrill:
+    apiKey: process.env.MANDRILL_APIKEY
+
   producteca:
     uri: process.env.PRODUCTECA_API or "http://api.producteca.com"
     clientID: process.env.PRODUCTECA_CLIENTID or "id"

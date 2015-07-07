@@ -35,7 +35,7 @@ class TemplatesController
     bodyTemplate = Handlebars.compile template.content.body
 
     res.send
-      from: template.content.from
+      from: template.content.from.email
       subject: subjectTemplate sample
       body: bodyTemplate sample
 

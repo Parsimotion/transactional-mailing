@@ -20,6 +20,10 @@ UserSchema = new Schema
   provider: String
   providerId: Number
 
+  companyId:
+    type: Number
+    unique: true
+
   tokens:
     producteca: String
 
@@ -29,8 +33,12 @@ UserSchema = new Schema
       required: true
     content:
       from:
-        type: String
-        required: true
+        name:
+          type: String
+          required: true
+        email:
+          type: String
+          required: true
       subject:
         type: String
         required: true
