@@ -19,7 +19,9 @@ describe "TemplatesController", ->
       templates: [
         name: "template1"
         content:
-          from: "juan@gmail.com"
+          from:
+            name: "Juan Perez"
+            email: "juan@gmail.com"
           subject: "Gracias por tu compra {{contact.name}}"
           body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
       ]
@@ -63,13 +65,15 @@ describe "TemplatesController", ->
         req.body =
           name: "template1"
           content:
-            from: "nuevomail@gmail.com"
+            from:
+              name: "Juan Perez"
+              email: "nuevomail@gmail.com"
             subject: "Gracias por tu compra {{contact.name}}"
             body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
         templatesController.update(req, res).then ->
           User.findOneAsync({}).then (user) ->
-            user.templates[0].content.from.should.eql "nuevomail@gmail.com"
+            user.templates[0].content.from.email.should.eql "nuevomail@gmail.com"
             done()
 
       it "should never update template id", (done) ->
@@ -77,7 +81,9 @@ describe "TemplatesController", ->
           _id: "nuevo_id"
           name: "template1"
           content:
-            from: "nuevomail@gmail.com"
+            from:
+              name: "Juan Perez"
+              email: "nuevomail@gmail.com"
             subject: "Gracias por tu compra {{contact.name}}"
             body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
@@ -96,7 +102,9 @@ describe "TemplatesController", ->
     req.body =
       name: "newTemplate"
       content:
-        from: "otromail@gmail.com"
+        from:
+          name: "Juan Perez"
+          email: "otromail@gmail.com"
         subject: "Como te fue con tu compra?"
         body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
@@ -116,21 +124,23 @@ describe "TemplatesController", ->
     req.body =
       sample:
         contact:
-          name: "Juan Perez"
+          name: "Jose Hernandez"
         lines: [
           product:
             description: "Excelente Producto"
         ]
       template:
         content:
-          from: "juan@gmail.com"
+          from:
+            name: "Juan Perez"
+            email: "juan@gmail.com"
           subject: "Gracias por tu compra {{contact.name}}"
           body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
 
     templatesController.test req, res
     expected =
       from: "juan@gmail.com"
-      subject: "Gracias por tu compra Juan Perez"
+      subject: "Gracias por tu compra Jose Hernandez"
       body: "<body><h1>Gracias por comprar un Excelente Producto</h1></body>"
 
     res.send.lastCall.args[0].should.eql expected

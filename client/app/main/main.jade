@@ -2,8 +2,11 @@ div(ng-include='"components/navbar/navbar.html"')
 div(ng-include="'components/notifications/notifications.html'")
 form
   .form-group
-    label(for='fromInput', translate='') from
-    input#fromInput.form-control(type='email', ng-model='template.content.from', placeholder="{{'email' | translate}}")
+    label(for='fromNameInput', translate='') fromName
+    input#fromNameInput.form-control(type='text', ng-model='template.content.from.name', placeholder="{{'name' | translate}}")
+  .form-group
+    label(for='fromEmailInput', translate='') fromEmail
+    input#fromEmailInput.form-control(type='email', ng-model='template.content.from.email', placeholder="{{'email' | translate}}")
   .form-group
     label(for='subjectInput', translate='') subject
     input#subjectInput.form-control(type='text', ng-model='template.content.subject', placeholder="{{'subject' | translate}}")
