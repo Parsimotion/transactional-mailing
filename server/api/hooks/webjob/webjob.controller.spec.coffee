@@ -1,6 +1,7 @@
 should = require("chai").should()
 app = require("../../../app")
 User = require("../../user/user.model")
+SalesOrder = require("../../salesorder/salesorder.model")
 sinon = require("sinon")
 Promise = require("bluebird").Promise
 proxyquire = require("proxyquire")
@@ -60,7 +61,9 @@ describe "WebjobController", ->
       done()
 
   afterEach (done) ->
-    user.remove -> done()
+    user.remove ->
+      SalesOrder.remove().exec().then ->
+        done()
 
   it "should send 403 - Invalid Signature when the POST does not include the correct signature header", (done) ->
       req =
@@ -95,3 +98,16 @@ describe "WebjobController", ->
       webjobController.notification(req, res).then ->
         messagesMock.send.lastCall.args[0].should.eql expected
         done()
+
+  it "should send 409 when an order was already processed", (done) ->
+      req =
+        headers:
+          signature: process.env.WEBJOB_SIGNATURE
+        body:
+          companyId: 410
+          salesOrderId: 125
+
+      new SalesOrder(_id: 125).save ->
+        webjobController.notification(req, res).then ->
+          res.send.lastCall.args[0].should.eql 409
+          done()

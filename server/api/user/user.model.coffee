@@ -7,8 +7,6 @@ _ = require("lodash")
 
 Schema = mongoose.Schema
 
-authTypes = ["producteca"]
-
 UserSchema = new Schema
   name: String
   email:
