@@ -1,5 +1,4 @@
 should = require("chai").should()
-app = require("../../app")
 User = require("../user/user.model")
 templatesController = require("./templates.controller")
 sinon = require("sinon")
