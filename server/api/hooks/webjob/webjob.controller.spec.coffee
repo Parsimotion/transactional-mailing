@@ -7,7 +7,6 @@ Promise = require("bluebird").Promise
 proxyquire = require("proxyquire")
 _ = require("lodash")
 
-templateId = null
 req = null
 res = null
 user = null
@@ -45,6 +44,7 @@ describe "WebjobController", ->
         producteca: "apitoken"
       templates: [
         name: "template1"
+        enabled: true
         content:
           from:
             name: "Juan Perez"
@@ -55,7 +55,6 @@ describe "WebjobController", ->
     )
     res = send: sinon.spy()
     user.save ->
-      templateId = user.templates[0].id
       req = user:
         _id: user.id
       done()
@@ -74,7 +73,7 @@ describe "WebjobController", ->
       res.send.lastCall.args[1].should.eql "Invalid signature"
       done()
 
-  it "should send the compiled message when notification is called", (done) ->
+  it "should send the compiled message when notification is called and the template is enabled", (done) ->
       req =
         headers:
           signature: process.env.WEBJOB_SIGNATURE
@@ -98,6 +97,21 @@ describe "WebjobController", ->
       webjobController.notification(req, res).then ->
         messagesMock.send.lastCall.args[0].should.eql expected
         done()
+
+  it "should not send any message and return 200 OK when the tempate is disabled", (done) ->
+      req =
+        headers:
+          signature: process.env.WEBJOB_SIGNATURE
+        body:
+          companyId: 410
+          salesOrderId: 125
+
+      user.templates[0].enabled = false
+      user.save ->
+        sinon.spy messagesMock, 'send'
+        webjobController.notification(req, res).then ->
+          sinon.assert.notCalled messagesMock.send
+          done()
 
   it "should send 409 when an order was already processed", (done) ->
       req =

@@ -1,6 +1,12 @@
 div(ng-include='"components/navbar/navbar.html"')
 div(ng-include="'components/notifications/notifications.html'")
 form
+  .checkbox
+    label(ng-switch='template.enabled')
+      input(type='checkbox', ng-model='template.enabled')
+      span.h4(translate='') enabled
+      i.fa.fa-play(ng-switch-when='true')
+      i.fa.fa-stop(ng-switch-when='false')
   .form-group
     label(for='fromNameInput', translate='') fromName
     input#fromNameInput.form-control(type='text', ng-model='template.content.from.name', placeholder="{{'name' | translate}}")
