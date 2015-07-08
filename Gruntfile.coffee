@@ -381,6 +381,7 @@ module.exports = (grunt) ->
           src: [
             "package.json"
             "server/**/*"
+            "app_data/**/*"
           ]
         ,
           expand: true
