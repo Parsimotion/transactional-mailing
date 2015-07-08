@@ -11,6 +11,7 @@ exports.notification = (req, res) ->
     return res.send 403, "Invalid signature"
 
   User.findOneAsync(companyId: req.body.companyId).then (user) =>
+    return res.send 401 if !user
     template = user.templates[0]
     return res.send 200 if !template.enabled
 

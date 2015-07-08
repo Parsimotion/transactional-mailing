@@ -27,7 +27,7 @@ class ServiceBusReceiver
         console.log 'receiving message...'
         # Message received and locked
         request.post @_buildRequest(lockedMessage), (err, result) =>
-          if err or result and result.statusCode != 200 and result.statusCode != 409
+          if err or result and result.statusCode != 200 and result.statusCode != 409 and result.statusCode != 401
             console.log "error processing message: #{err or result.body}"
             return @serviceBusService.unlockMessage lockedMessage, ->
 
