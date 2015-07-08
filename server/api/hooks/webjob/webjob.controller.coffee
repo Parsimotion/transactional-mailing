@@ -1,7 +1,7 @@
 User = require("../../user/user.model")
 SalesOrder = require("../../salesorder/salesorder.model")
 ProductecaApi = require("producteca-sdk").Api
-Promise = require("bluebird")
+Promise = require("bluebird").Promise
 Handlebars = require("handlebars")
 mandrill = require("mandrill-api/mandrill")
 config = require("../../../config/environment")
@@ -20,32 +20,37 @@ exports.notification = (req, res) ->
 
     salesOrderId = req.body.salesOrderId
     productecaApi.getSalesOrder(salesOrderId).then (salesOrder) ->
-      mandrillClient = new mandrill.Mandrill config.mandrill.apiKey
-      return if user.templates.length is 0
+      productDetailPromises = salesOrder.lines.map (line) ->
+        productecaApi.getProduct(line.product.id).then (product) ->
+          line.product = product
 
-      subjectTemplate = Handlebars.compile template.content.subject
-      bodyTemplate = Handlebars.compile template.content.body
+      Promise.all(productDetailPromises).then ->
+        mandrillClient = new mandrill.Mandrill config.mandrill.apiKey
+        return if user.templates.length is 0
 
-      message =
-        html: bodyTemplate salesOrder
-        subject: subjectTemplate salesOrder
-        from_email: template.content.from.email
-        from_name: template.content.from.name
-        to: [
-          email: salesOrder.contact.mail
-          name: salesOrder.contact.contactPerson
-          type: "to"
-        ]
+        subjectTemplate = Handlebars.compile template.content.subject
+        bodyTemplate = Handlebars.compile template.content.body
 
-      SalesOrder.createAsync(_id: salesOrderId)
-      .then ->
-        mandrillClient.messages.send
-          message: message
-        , (result) ->
-          res.send result
-        , (err) -> res.send 400, err
-      , (err) ->
-        res.send 409, err
+        message =
+          html: bodyTemplate salesOrder
+          subject: subjectTemplate salesOrder
+          from_email: template.content.from.email
+          from_name: template.content.from.name
+          to: [
+            email: salesOrder.contact.mail
+            name: salesOrder.contact.contactPerson
+            type: "to"
+          ]
+
+        SalesOrder.createAsync(_id: salesOrderId)
+        .then ->
+          mandrillClient.messages.send
+            message: message
+          , (result) ->
+            res.send result
+          , (err) -> res.send 400, err
+        , (err) ->
+          res.send 409, err
 
   .catch (e) =>
     console.log e

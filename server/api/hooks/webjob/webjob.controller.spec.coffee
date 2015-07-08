@@ -1,3 +1,4 @@
+require('chai').use require('sinon-chai')
 should = require("chai").should()
 app = require("../../../app")
 User = require("../../user/user.model")
@@ -13,23 +14,36 @@ user = null
 webjobController = null
 mandrillMock = null
 messagesMock = null
+productecaApiMock = null
 
 describe "WebjobController", ->
 
   beforeEach (done) ->
     messagesMock = send: (message, cb) -> cb status: "sent"
     mandrillMock = Mandrill: -> messages: messagesMock
-    productecaSdkMock = Api: -> getSalesOrder: ->
-      new Promise (resolve) ->
-        resolve
-          contact:
-            name: "Jose Hernandez"
-            contactPerson: "Juan Jose Hernandez"
-            mail: 'jose.hernandez@gmail.com'
-          lines: [
-            product:
-              description: "Excelente Producto"
-          ]
+    productecaApiMock =
+      getSalesOrder: ->
+        new Promise (resolve) ->
+          resolve
+            contact:
+              name: "Jose Hernandez"
+              contactPerson: "Juan Jose Hernandez"
+              mail: 'jose.hernandez@gmail.com'
+            lines: [
+              product:
+                id: 97
+                description: "Excelente Producto"
+            ]
+      getProduct: ->
+        new Promise (resolve) ->
+          resolve
+            id: 97
+            description: "Excelente Producto"
+            sku: "123456789"
+            notes: "Notas exclusivas para vos"
+
+    productecaSdkMock = Api: -> productecaApiMock
+
 
     webjobController = proxyquire './webjob.controller',
       'mandrill-api/mandrill': mandrillMock
@@ -50,7 +64,7 @@ describe "WebjobController", ->
             name: "Juan Perez"
             email: "juan@gmail.com"
           subject: "Gracias por tu compra {{contact.name}}"
-          body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}</h1>{{/each}}</body>"
+          body: "<body>{{#each lines}}<h1>Gracias por comprar un {{product.description}}. {{product.notes}}</h1>{{/each}}</body>"
       ]
     )
     res = send: sinon.spy()
@@ -73,6 +87,19 @@ describe "WebjobController", ->
       res.send.lastCall.args[1].should.eql "Invalid signature"
       done()
 
+  it "should get product details", (done) ->
+      req =
+        headers:
+          signature: process.env.WEBJOB_SIGNATURE
+        body:
+          companyId: 410
+          salesOrderId: 125
+
+      sinon.spy productecaApiMock, 'getProduct'
+      webjobController.notification(req, res).then ->
+        productecaApiMock.getProduct.should.have.been.calledWith 97
+        done()
+
   it "should send the compiled message when notification is called and the template is enabled", (done) ->
       req =
         headers:
@@ -83,7 +110,7 @@ describe "WebjobController", ->
 
       expected =
         message:
-          html: "<body><h1>Gracias por comprar un Excelente Producto</h1></body>"
+          html: "<body><h1>Gracias por comprar un Excelente Producto. Notas exclusivas para vos</h1></body>"
           subject: "Gracias por tu compra Jose Hernandez"
           from_email: "juan@gmail.com"
           from_name: "Juan Perez"
@@ -95,7 +122,7 @@ describe "WebjobController", ->
 
       sinon.spy messagesMock, 'send'
       webjobController.notification(req, res).then ->
-        messagesMock.send.lastCall.args[0].should.eql expected
+        messagesMock.send.should.have.been.calledWith expected
         done()
 
   it "should not send any message and return 200 OK when the tempate is disabled", (done) ->
@@ -110,7 +137,7 @@ describe "WebjobController", ->
       user.save ->
         sinon.spy messagesMock, 'send'
         webjobController.notification(req, res).then ->
-          sinon.assert.notCalled messagesMock.send
+          messagesMock.send.should.not.have.been.called
           done()
 
   it "should send 409 when an order was already processed", (done) ->
