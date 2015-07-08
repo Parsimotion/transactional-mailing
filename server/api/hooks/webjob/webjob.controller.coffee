@@ -11,6 +11,9 @@ exports.notification = (req, res) ->
     return res.send 403, "Invalid signature"
 
   User.findOneAsync(companyId: req.body.companyId).then (user) =>
+    template = user.templates[0]
+    return res.send 200 if !template.enabled
+
     productecaApi = new ProductecaApi
       accessToken: user.tokens.producteca
       url: config.producteca.uri
@@ -20,7 +23,6 @@ exports.notification = (req, res) ->
       mandrillClient = new mandrill.Mandrill config.mandrill.apiKey
       return if user.templates.length is 0
 
-      template = user.templates[0]
       subjectTemplate = Handlebars.compile template.content.subject
       bodyTemplate = Handlebars.compile template.content.body
 

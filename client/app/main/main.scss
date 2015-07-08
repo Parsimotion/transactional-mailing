@@ -23,6 +23,18 @@ textarea {
   width: 90%;
 }
 
+.checkbox {
+  .fa {
+    margin-left: 12px;
+    &.fa-play {
+      color: $brand-success;
+    }
+    &.fa-stop {
+      color: $brand-danger;
+    }
+  }
+}
+
 #banner {
     border-bottom: none;
     margin-top: -20px;

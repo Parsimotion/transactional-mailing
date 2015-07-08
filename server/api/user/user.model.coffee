@@ -29,6 +29,9 @@ UserSchema = new Schema
     name:
       type: String
       required: true
+    enabled:
+      type: Boolean
+      default: false
     content:
       from:
         name:
