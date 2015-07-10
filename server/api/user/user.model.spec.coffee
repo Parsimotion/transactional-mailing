@@ -1,5 +1,5 @@
 should = require("chai").should()
-app = require("../../app")
+app = include("app")
 User = require("./user.model")
 
 user = new User(

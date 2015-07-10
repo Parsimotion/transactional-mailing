@@ -1,7 +1,7 @@
 "use strict"
 express = require("express")
 passport = require("passport")
-auth = require("../auth.service")
+auth = include("auth/auth.service")
 
 router = express.Router()
 

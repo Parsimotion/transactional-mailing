@@ -1,7 +1,7 @@
 "use strict"
 User = require("./user.model")
 passport = require("passport")
-config = require("../../config/environment")
+config = include("config/environment")
 
 ###*
 Get my info

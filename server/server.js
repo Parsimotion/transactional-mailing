@@ -1,4 +1,4 @@
-require("coffee-script/register");
+require("./srv-globals");
 
 var app = require("./app.coffee");
 

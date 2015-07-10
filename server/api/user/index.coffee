@@ -1,8 +1,8 @@
 "use strict"
 express = require("express")
 controller = require("./user.controller")
-config = require("../../config/environment")
-auth = require("../../auth/auth.service")
+config = include("config/environment")
+auth = include("auth/auth.service")
 
 router = express.Router()
 
