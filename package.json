@@ -19,7 +19,6 @@
     "express-session": "~1.0.2",
     "handlebars": "^3.0.3",
     "jade": "~1.2.0",
-    "karma-phantomjs-launcher": "^0.2.0",
     "lodash": "~3.9.0",
     "lodash-deep": "^1.4.2",
     "mandrill-api": "^1.0.45",
@@ -29,7 +28,6 @@
     "oauth": "~0.9.12",
     "passport": "~0.2.0",
     "passport-producteca": "^0.0.6",
-    "phantomjs": "^1.9.17",
     "producteca-sdk": "~0.0.21",
     "request": "^2.58.0",
     "serve-favicon": "~2.0.1"
