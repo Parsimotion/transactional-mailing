@@ -1,5 +1,5 @@
 # transactional-mailing
-Please, replace the string "transactional-mailing" with the name you want, in all the project.
+The user can configure emails to be sent when an order is placed in producteca.
 
 ## Setup
 

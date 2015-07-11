@@ -58,4 +58,4 @@ exports.notification = (req, res) ->
     res.send 400, e.message or e
 
 isSignatureValid = (req) ->
-  req.headers["signature"] is (process.env.WEBJOB_SIGNATURE or "default")
+  req.headers["signature"] is config.webjob.signature

@@ -643,10 +643,7 @@ module.exports = (grunt) ->
       return grunt.task.run [
         "clean:server"
         "env:all"
-        "injector:sass"
-        "concurrent:test"
-        "injector"
-        "autoprefixer"
+        "coffee"
         "karma"
       ]
 

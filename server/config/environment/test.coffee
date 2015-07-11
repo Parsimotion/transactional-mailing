@@ -4,5 +4,10 @@
 # ===========================
 
 # MongoDB connection options
-module.exports = mongo:
-  uri: "mongodb://localhost/transactional-mailing-test"
+module.exports =
+  mongo:
+    uri: "mongodb://localhost/transactional-mailing-test"
+
+  webjob:
+    signatures: "it is me"
+
