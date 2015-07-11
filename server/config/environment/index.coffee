@@ -33,6 +33,10 @@ all =
   mandrill:
     apiKey: process.env.MANDRILL_APIKEY
 
+  # Webjob
+  webjob:
+    signature: process.env.WEBJOB_SIGNATURE
+
   producteca:
     uri: process.env.PRODUCTECA_API or "http://api.producteca.com"
     clientID: process.env.PRODUCTECA_CLIENTID or "id"

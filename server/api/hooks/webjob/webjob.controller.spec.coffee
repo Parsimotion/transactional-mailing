@@ -7,6 +7,7 @@ sinon = require("sinon")
 Promise = require("bluebird").Promise
 proxyquire = require("proxyquire")
 _ = require("lodash")
+config = require("../../../config/environment")
 
 req = null
 res = null
@@ -90,7 +91,7 @@ describe "WebjobController", ->
   it "should get product details", (done) ->
       req =
         headers:
-          signature: process.env.WEBJOB_SIGNATURE
+          signature: config.webjob.signature
         body:
           companyId: 410
           salesOrderId: 125
@@ -103,7 +104,7 @@ describe "WebjobController", ->
   it "should send the compiled message when notification is called and the template is enabled", (done) ->
       req =
         headers:
-          signature: process.env.WEBJOB_SIGNATURE
+          signature: config.webjob.signature
         body:
           companyId: 410
           salesOrderId: 125
@@ -128,7 +129,7 @@ describe "WebjobController", ->
   it "should not send any message and return 200 OK when the tempate is disabled", (done) ->
       req =
         headers:
-          signature: process.env.WEBJOB_SIGNATURE
+          signature: config.webjob.signature
         body:
           companyId: 410
           salesOrderId: 125
@@ -143,7 +144,7 @@ describe "WebjobController", ->
   it "should send 409 when an order was already processed", (done) ->
       req =
         headers:
-          signature: process.env.WEBJOB_SIGNATURE
+          signature: config.webjob.signature
         body:
           companyId: 410
           salesOrderId: 125
