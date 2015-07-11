@@ -5,4 +5,4 @@
 
 # MongoDB connection options
 module.exports = mongo:
-  uri: "mongodb://tester:tester@c771.candidate.3.mongolayer.com:10771/testing"
+  uri: "mongodb://localhost/transactional-mailing-test"
