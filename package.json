@@ -28,7 +28,7 @@
     "oauth": "~0.9.12",
     "passport": "~0.2.0",
     "passport-producteca": "^0.0.6",
-    "producteca-sdk": "~0.0.21",
+    "producteca-sdk": "^0.0.25",
     "request": "^2.58.0",
     "serve-favicon": "~2.0.1"
   },
