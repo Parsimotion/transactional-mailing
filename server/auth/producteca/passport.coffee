@@ -1,5 +1,6 @@
 passport = require("passport")
 ProductecaStrategy = require("passport-producteca").Strategy
+_ = require("lodash")
 
 exports.setup = (User, config) ->
   passport.use new ProductecaStrategy
@@ -16,7 +17,7 @@ exports.setup = (User, config) ->
       setTokenAndSave = =>
         user.tokens.producteca = accessToken
         user.save()
-        user
+        _.omit user, 'templates'
 
       return done null, setTokenAndSave() if user?
 
