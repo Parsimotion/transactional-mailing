@@ -10,16 +10,11 @@ exports.setup = (User, config) ->
     authorizationURL: config.producteca.authorizationURL
     tokenURL: config.producteca.tokenURL
     profileUrl: config.producteca.profileUrl
-  , (accessToken, _, profile, done) ->
+  , (accessToken, __, profile, done) ->
     User.findOne { provider: "producteca", providerId: profile.id }, (err, user) ->
       return done err if err
 
-      setTokenAndSave = =>
-        user.tokens.producteca = accessToken
-        user.save()
-        _.omit user, 'templates'
-
-      return done null, setTokenAndSave() if user?
+      return done null, _.pick(user, '_id') if user?
 
       user = new User
         name: "#{profile.profile.firstName} #{profile.profile.lastName}"
