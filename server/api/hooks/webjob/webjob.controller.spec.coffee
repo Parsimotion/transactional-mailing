@@ -120,6 +120,7 @@ describe "WebjobController", ->
             name: "Juan Jose Hernandez"
             type: "to"
           ]
+          bcc_address: undefined
 
       sinon.spy messagesMock, 'send'
       webjobController.notification(req, res).then ->

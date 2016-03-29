@@ -42,6 +42,7 @@ exports.notification = (req, res) ->
             name: salesOrder.contact.contactPerson
             type: "to"
           ]
+          bcc_address: template.content.bcc
 
         SalesOrder.createAsync(_id: salesOrderId)
         .then ->
