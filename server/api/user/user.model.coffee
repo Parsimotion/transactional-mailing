@@ -46,6 +46,7 @@ UserSchema = new Schema
       body:
         type: String
         required: true
+      bcc: String
   ]
 
 UserSchema.methods.getTemplate = (id) ->
