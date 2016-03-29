@@ -31,19 +31,18 @@ exports.notification = (req, res) ->
 
         subjectTemplate = Handlebars.compile template.content.subject
         bodyTemplate = Handlebars.compile template.content.body
-        to = [
-          email: salesOrder.contact.mail
-          name: salesOrder.contact.contactPerson
-          type: "to"
-        ]
-        to = to.concat { email: template.content.bcc, name: template.content.bcc, type: "bcc" } if template.content.bcc
 
         message =
           html: bodyTemplate salesOrder
           subject: subjectTemplate salesOrder
           from_email: template.content.from.email
           from_name: template.content.from.name
-          to: to
+          to: [
+            email: salesOrder.contact.mail
+            name: salesOrder.contact.contactPerson
+            type: "to"
+          ]
+          bcc_address: template.contact.bcc
 
         SalesOrder.createAsync(_id: salesOrderId)
         .then ->
