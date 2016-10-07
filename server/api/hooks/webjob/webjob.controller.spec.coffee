@@ -127,6 +127,36 @@ describe "WebjobController", ->
         messagesMock.send.should.have.been.calledWith expected
         done()
 
+  it "should send message as plain text if type is text", (done) ->
+    template = user.templates[0]
+    template.content.type = "text"
+
+    user.save ->
+      req =
+        headers:
+          signature: config.webjob.signature
+        body:
+          companyId: 410
+          salesOrderId: 125
+
+      expected =
+        message:
+          text: "<body><h1>Gracias por comprar un Excelente Producto. Notas exclusivas para vos</h1></body>"
+          subject: "Gracias por tu compra Jose Hernandez"
+          from_email: "juan@gmail.com"
+          from_name: "Juan Perez"
+          to: [
+            email: 'jose.hernandez@gmail.com'
+            name: "Juan Jose Hernandez"
+            type: "to"
+          ]
+          bcc_address: undefined
+
+      sinon.spy messagesMock, 'send'
+      webjobController.notification(req, res).then ->
+        messagesMock.send.should.have.been.calledWith expected
+        done()
+
   it "should not send any message and return 200 OK when the tempate is disabled", (done) ->
       req =
         headers:

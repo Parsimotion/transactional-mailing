@@ -46,6 +46,10 @@ UserSchema = new Schema
       body:
         type: String
         required: true
+      type:
+        type: String
+        enum: ['html','text']
+        default: 'html' 
       bcc: String
   ]
 

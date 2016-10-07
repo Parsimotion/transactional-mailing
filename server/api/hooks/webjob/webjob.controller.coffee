@@ -5,6 +5,7 @@ Promise = require("bluebird").Promise
 Handlebars = require("handlebars")
 mandrill = require("mandrill-api/mandrill")
 config = require("../../../config/environment")
+_ = require("lodash")
 
 exports.notification = (req, res) ->
   if not isSignatureValid req
@@ -31,9 +32,9 @@ exports.notification = (req, res) ->
 
         subjectTemplate = Handlebars.compile template.content.subject
         bodyTemplate = Handlebars.compile template.content.body
+        body = bodyTemplate salesOrder
 
         message =
-          html: bodyTemplate salesOrder
           subject: subjectTemplate salesOrder
           from_email: template.content.from.email
           from_name: template.content.from.name
@@ -43,6 +44,12 @@ exports.notification = (req, res) ->
             type: "to"
           ]
           bcc_address: template.content.bcc
+
+        messageBody = if template.content.type is 'text' then { text: body } else { html: body }
+
+        console.log messageBody
+
+        _.assign message, messageBody
 
         SalesOrder.createAsync(_id: salesOrderId)
         .then ->
