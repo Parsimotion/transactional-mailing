@@ -23,7 +23,7 @@
     "lodash-deep": "^1.4.2",
     "mandrill-api": "^1.0.45",
     "method-override": "~1.0.0",
-    "mongoose": "~3.8.8",
+    "mongoose": "~4.11.14",
     "morgan": "~1.0.0",
     "oauth": "~0.9.12",
     "passport": "~0.2.0",
