@@ -8,3 +8,7 @@ dist
 /server/config/local.env.coffee
 *.sublime-workspace
 *.log
+
+site.config
+*.env
+*.env.*
